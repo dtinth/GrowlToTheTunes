@@ -1,0 +1,19 @@
+#!/bin/sh
+
+get_info() {
+  TYPE="$1"
+  osascript -e 'tell the application "iTunes" to get the '$TYPE' of the current track'
+}
+
+while true
+do
+  ID="`get_info id`"
+  if [ "$ID" != "$LAST_ID" ]
+  then
+    LAST_ID="$ID"
+    growlnotify -n 'Growl to the Tunes' -a iTunes -m "`get_info artist`
+
+`get_info album`" -t "`get_info name`"
+  fi
+  sleep 1
+done
